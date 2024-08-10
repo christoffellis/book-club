@@ -8,11 +8,14 @@ export const App = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    let currentStream = null;
+
     const getMediaStream = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
+          currentStream = stream; // Store the current stream for cleanup
         }
       } catch (err) {
         setError('Error accessing webcam: ' + err.message);
@@ -22,9 +25,10 @@ export const App = () => {
 
     getMediaStream();
 
+    // Cleanup function
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const tracks = videoRef.current.srcObject.getTracks();
+      if (currentStream) {
+        const tracks = currentStream.getTracks();
         tracks.forEach(track => track.stop());
       }
     };
@@ -92,7 +96,7 @@ export const App = () => {
       {recordedChunks.length > 0 && (
         <button onClick={handleDownload}>Download</button>
       )}
-      {error && <p style={{ color: 'orange' }}>{error}</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
