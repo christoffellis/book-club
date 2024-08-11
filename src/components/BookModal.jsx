@@ -1,7 +1,36 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
+import { styled } from '@mui/system';
 import { BarcodeScanner } from './BarcodeScanner';
 import { BookInfo } from './BookInfo';
+
+// Styled components for dark theme
+const DarkDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    backgroundColor: '#1a1a1a', // Dark background
+    color: '#ffffff', // White text
+  },
+}));
+
+const DarkTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiInputBase-input': {
+    color: '#ffffff', // White text
+  },
+  '& .MuiFormLabel-root': {
+    color: '#ffffff', // White label
+  },
+  '& .MuiInput-underline:before': {
+    borderBottomColor: '#ffffff', // White underline
+  },
+  '& .MuiInput-underline:hover:before': {
+    borderBottomColor: '#ffffff', // White underline on hover
+  },
+}));
+
+const DarkButton = styled(Button)(({ theme }) => ({
+  color: '#ffffff', // White text
+  borderColor: '#ffffff', // White border
+}));
 
 export const BookModal = ({ open, handleClose }) => {
   const [bookTitle, setBookTitle] = useState('');
@@ -18,22 +47,20 @@ export const BookModal = ({ open, handleClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <DarkDialog open={open} onClose={handleClose}>
       <DialogTitle>Add a Book</DialogTitle>
       <DialogContent>
         <BarcodeScanner />
-
-        <BookInfo/>
+        <BookInfo />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">
+        <DarkButton onClick={handleClose} variant="outlined">
           Cancel
-        </Button>
-        <Button onClick={handleSubmit} color="primary">
+        </DarkButton>
+        <DarkButton onClick={handleSubmit} variant="contained">
           Add
-        </Button>
+        </DarkButton>
       </DialogActions>
-    </Dialog>
+    </DarkDialog>
   );
 };
-
