@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Fab, Typography } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
+import AddIcon from '@mui/icons-material/Add';
 import 'slick-carousel/slick/slick-theme.css';
 
 // Define book genre colors
@@ -37,8 +38,8 @@ export const SearchBookPage = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '10%',
         overflow: 'hidden',
+        position: 'relative'
       }}
     >
       <Box
@@ -107,6 +108,16 @@ export const SearchBookPage = () => {
           </Slider>
         </Box>
       </Box>
+       <Fab
+        color="primary"
+        sx={{
+          position: 'absolute',
+          bottom: 16,
+          right: 16,
+        }}
+      >
+        <AddIcon />
+      </Fab>
     </Box>
   );
 };
