@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Define the component
-const BookInfo = ({ barcode }) => {
+export const BookInfo = ({ barcode }) => {
   const [bookData, setBookData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -77,5 +77,3 @@ const BookInfo = ({ barcode }) => {
     </div>
   );
 };
-
-export default BookInfo;

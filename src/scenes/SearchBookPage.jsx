@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import AddIcon from '@mui/icons-material/Add';
 import 'slick-carousel/slick/slick-theme.css';
+import { BookModal } from '../components/BookModal';
 
 // Define book genre colors
 const genreColors = {
@@ -18,6 +19,11 @@ const genres = Object.keys(genreColors);
 
 export const SearchBookPage = () => {
   const [activeColor, setActiveColor] = useState(genreColors.fantasy);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const settings = {
     dots: true,
@@ -108,16 +114,19 @@ export const SearchBookPage = () => {
           </Slider>
         </Box>
       </Box>
-       <Fab
+      <Fab
         color="primary"
         sx={{
           position: 'absolute',
           bottom: 16,
           right: 16,
         }}
+        onClick={handleOpenModal}
       >
         <AddIcon />
       </Fab>
+      {/* Book Modal */}
+      <BookModal open={isModalOpen} handleClose={handleCloseModal} />
     </Box>
   );
 };
