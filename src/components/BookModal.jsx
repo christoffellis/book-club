@@ -18,31 +18,25 @@ const DarkButton = styled(Button)(({ theme }) => ({
 }));
 
 export const BookModal = ({ open, handleClose }) => {
-  const [bookTitle, setBookTitle] = useState('');
-  const [bookAuthor, setBookAuthor] = useState('');
-
-  const handleSubmit = () => {
-    // Handle form submission logic here
-    console.log('Book Title:', bookTitle);
-    console.log('Book Author:', bookAuthor);
-    // Reset form fields
-    setBookTitle('');
-    setBookAuthor('');
-    handleClose(); // Close the modal
-  };
+  const [barcode, setBarcode] = React.useState(null);
 
   return (
     <DarkDialog open={open} onClose={handleClose}>
       <DialogTitle>Add a Book</DialogTitle>
       <DialogContent>
-        <BarcodeScanner />
-        <BookInfo />
+        <BarcodeScanner
+          barcode={barcode}
+          setBarcode={setBarcode}
+        />
+        <BookInfo
+          barcode={barcode}
+        />
       </DialogContent>
       <DialogActions>
         <DarkButton onClick={handleClose} variant="outlined">
           Cancel
         </DarkButton>
-        <DarkButton onClick={handleSubmit} variant="contained">
+        <DarkButton onClick={() => {}} variant="contained">
           Add
         </DarkButton>
       </DialogActions>
