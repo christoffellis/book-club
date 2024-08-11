@@ -3,7 +3,6 @@ import React from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { Box, IconButton, Typography } from '@mui/material';
 import { Google } from '@mui/icons-material';
-import { useBookshelves } from '../common/useBookshelves';
 
 export const AppBar = ({
   loggedIn,
@@ -33,6 +32,7 @@ export const AppBar = ({
   const signOut = googleLogout({
     onLogoutSuccess: () => {
       console.log('User logged out');
+      googleLogout();
       setLoggedIn(false);
     },
   });
@@ -70,7 +70,7 @@ export const AppBar = ({
               marginRight: '10px',
             }}
           />
-          <IconButton onClick={() => googleLogout()} color="inherit">
+          <IconButton onClick={() => signOut()} color="inherit">
             Sign Out
           </IconButton>
         </Box>

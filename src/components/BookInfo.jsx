@@ -42,7 +42,7 @@ export const BookInfo = ({ barcode, addToShelf, bookshelfID }) => {
 
       fetchBookId();
     }
-  }, [barcode]);
+  }, [addToShelf, barcode, bookshelfID]);
 
   if (loading) {
     return <div>Loading...</div>;

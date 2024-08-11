@@ -27,7 +27,7 @@ export const BookModal = ({
   const [barcode, setBarcode] = React.useState(null);
 
   const{ bookshelves } = useBookshelves(token); 
-  const { addBookToShelf, loading, error } = useAddBookToShelf(token);
+  const { addBookToShelf } = useAddBookToShelf(token);
 
   return (
     <DarkDialog open={open} onClose={handleClose}>
