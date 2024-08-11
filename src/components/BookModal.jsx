@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import { BarcodeScanner } from './BarcodeScanner';
 import { BookInfo } from './BookInfo';
@@ -9,21 +9,6 @@ const DarkDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
     backgroundColor: '#1a1a1a', // Dark background
     color: '#ffffff', // White text
-  },
-}));
-
-const DarkTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiInputBase-input': {
-    color: '#ffffff', // White text
-  },
-  '& .MuiFormLabel-root': {
-    color: '#ffffff', // White label
-  },
-  '& .MuiInput-underline:before': {
-    borderBottomColor: '#ffffff', // White underline
-  },
-  '& .MuiInput-underline:hover:before': {
-    borderBottomColor: '#ffffff', // White underline on hover
   },
 }));
 
