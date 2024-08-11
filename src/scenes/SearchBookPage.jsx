@@ -72,22 +72,39 @@ export const SearchBookPage = () => {
             transition: 'background-color 0.5s ease',
           }}
         />
-       <Box sx={{ overflow: 'hidden', width: '100%', height: 'auto', flexDirection: 'column',
-      justifyContent: 'flex-end' }}>
-        <Slider {...settings}>
-          {genres.map((genre, index) => (
-            <div key={index}>
-              <Typography
-                variant="h4"
-                sx={{ color: '#ffffff', fontFamily: 'Spotify, sans-serif' }}
-              >
-                {genre.charAt(0).toUpperCase() + genre.slice(1)}
-              </Typography>
-            </div>
-          ))}
-        </Slider>
-      </Box>
-
+        
+        <Box
+          sx={{
+            width: '100%',
+            height: '90%', // Ensures the Slider container takes up 90% of the height
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end', // Aligns Slider to the bottom
+            overflow: 'hidden',
+          }}
+        >
+          <Slider {...settings}>
+            {genres.map((genre, index) => (
+              <div key={index} style={{ height: '100%' }}> {/* Ensure each slide takes full height */}
+                <Box
+                  sx={{
+                    height: '90%', // Box for genre text with height of 90%
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{ color: '#ffffff', fontFamily: 'Spotify, sans-serif' }}
+                  >
+                    {genre.charAt(0).toUpperCase() + genre.slice(1)}
+                  </Typography>
+                </Box>
+              </div>
+            ))}
+          </Slider>
+        </Box>
       </Box>
     </Box>
   );

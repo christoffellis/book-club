@@ -1,5 +1,6 @@
 {
   "name": "book-club",
+  "homepage": "https://christoffellis.github.io/book-club/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
