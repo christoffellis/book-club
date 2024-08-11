@@ -1,11 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
-import BarcodeScanner from './components/BarcodeScanner';
-import BookInfo from './components/BookInfo';
+import React from 'react';
 import { SearchBookPage } from './scenes/SearchBookPage';
 
 export const App = () => {
   
-  const [barcode, setBarcode] = React.useState(null);
 
   return (
     <div>

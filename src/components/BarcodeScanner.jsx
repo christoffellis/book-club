@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Webcam from 'react-webcam';
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 
-const BarcodeScanner = ({
+export const BarcodeScanner = ({
     setBarcode,
     barcode
 }) => {
@@ -33,7 +33,7 @@ const BarcodeScanner = ({
     const intervalId = setInterval(scanBarcode, 100); // Scan every second
 
     return () => clearInterval(intervalId); // Clean up the interval on component unmount
-  }, []);
+  }, [setBarcode]);
 
   return (
     <div>
@@ -52,5 +52,3 @@ const BarcodeScanner = ({
     </div>
   );
 };
-
-export default BarcodeScanner;
