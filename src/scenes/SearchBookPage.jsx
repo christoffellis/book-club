@@ -62,17 +62,22 @@ export const SearchBookPage = () => {
           sx={{
             position: 'absolute',
             top: '-40%',
-            left: '15%',
-            width: '70%',
-            height: '70%',
+            left: '25vh',
+            width: '50vh', // Set width based on height
+            height: '50vh', // Height is 70% of the viewport height
             backgroundColor: activeColor,
             filter: 'blur(10vh)',
             borderRadius: '50%',
             pointerEvents: 'none',
             transition: 'background-color 0.5s ease',
+            // To maintain the aspect ratio (width = 70% of height), you can use padding-bottom trick.
+            // Make sure to adjust width and height together
+            '@media (min-width: 600px)': {
+            width: '50vw', // For larger screens, you may need to adjust for viewport width
+            transform: 'translateX(-50%)', // Center horizontally
+            },
           }}
         />
-        
         <Box
           sx={{
             width: '100%',
