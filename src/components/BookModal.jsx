@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { styled } from '@mui/system';
 import { BarcodeScanner } from './BarcodeScanner';
