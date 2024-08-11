@@ -1,21 +1,25 @@
 import React from 'react';
 import { SearchBookPage } from './scenes/SearchBookPage';
+import { AppBar } from './components/AppBar';
 
 export const App = () => {
-  
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [token, setToken] = React.useState(false);
 
   return (
     <div>
-     
-      <SearchBookPage />
-      {/* <BarcodeScanner
-        barcode={barcode}
-        setBarcode={setBarcode}
+      <AppBar
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+        token={token}
+        setToken={setToken}
       />
-
-      <BookInfo
-        barcode={barcode}
-      /> */}
+      <SearchBookPage
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+        token={token}
+        setToken={setToken}
+      />
     </div>
   );
 };

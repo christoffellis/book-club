@@ -17,7 +17,12 @@ const genreColors = {
 
 const genres = Object.keys(genreColors);
 
-export const SearchBookPage = () => {
+export const SearchBookPage = ({
+  loggedIn,
+  setLoggedIn,
+  token,
+  setToken
+}) => {
   const [activeColor, setActiveColor] = useState(genreColors.fantasy);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,7 +45,7 @@ export const SearchBookPage = () => {
     <Box
       sx={{
         backgroundColor: '#000000',
-        height: '100vh',
+        height: '92vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -114,7 +119,8 @@ export const SearchBookPage = () => {
           </Slider>
         </Box>
       </Box>
-      <Fab
+      {loggedIn && (
+        <Fab
         color="primary"
         sx={{
           position: 'absolute',
@@ -125,8 +131,12 @@ export const SearchBookPage = () => {
       >
         <AddIcon />
       </Fab>
-      {/* Book Modal */}
-      <BookModal open={isModalOpen} handleClose={handleCloseModal} />
+      )}
+      <BookModal
+        open={isModalOpen}
+        handleClose={handleCloseModal}
+        token={token}
+      />
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Define the component
-export const BookInfo = ({ barcode }) => {
+export const BookInfo = ({ barcode, addToShelf, bookshelfID }) => {
   const [bookData, setBookData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,6 +19,8 @@ export const BookInfo = ({ barcode }) => {
 
           if (data.items && data.items.length > 0) {
             const bookId = data.items[0].id;
+
+            addToShelf(bookshelfID, bookId);
 
             // Step 2: Fetch additional details using the book ID
             const detailsUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}`;

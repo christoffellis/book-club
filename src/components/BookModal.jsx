@@ -3,6 +3,8 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/
 import { styled } from '@mui/system';
 import { BarcodeScanner } from './BarcodeScanner';
 import { BookInfo } from './BookInfo';
+import { useAddBookToShelf } from '../common/useAddBookToShelf';
+import { useBookshelves } from '../common/useBookshelves';
 
 // Styled components for dark theme
 const DarkDialog = styled(Dialog)(({ theme }) => ({
@@ -17,8 +19,15 @@ const DarkButton = styled(Button)(({ theme }) => ({
   borderColor: '#ffffff', // White border
 }));
 
-export const BookModal = ({ open, handleClose }) => {
+export const BookModal = ({
+  open,
+  handleClose,
+  token
+}) => {
   const [barcode, setBarcode] = React.useState(null);
+
+  const{ bookshelves } = useBookshelves(token); 
+  const { addBookToShelf, loading, error } = useAddBookToShelf(token);
 
   return (
     <DarkDialog open={open} onClose={handleClose}>
@@ -30,6 +39,8 @@ export const BookModal = ({ open, handleClose }) => {
         />
         <BookInfo
           barcode={barcode}
+          addToShelf={addBookToShelf}
+          bookshelfID={bookshelves.id}
         />
       </DialogContent>
       <DialogActions>
