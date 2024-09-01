@@ -1,31 +1,38 @@
-import React, { useState } from 'react';
-import { Box, Fab, Typography } from '@mui/material';
+import React, { useState, useEffect, useContext } from 'react';
+import { Box, Fab } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import AddIcon from '@mui/icons-material/Add';
 import 'slick-carousel/slick/slick-theme.css';
 import { BookModal } from '../components/BookModal';
+import { useBookshelves } from '../common/useBookshelves';
+import { useGetShelfVolumes } from '../common/useGetShelfVolumes';
+import { GenreDisplay } from '../components/ViewLibrary/GenreDisplay';
+import { BookDisplay } from '../components/BookDisplay/BookDisplay';
+import { genreColors } from '../enums';
+import { MetadataProvider, useToken } from '../providers';
 
-// Define book genre colors
-const genreColors = {
-  fantasy: '#4A148C',
-  history: '#F57F17',
-  youngAdult: '#C2185B',
-  mystery: '#1976D2',
-  scienceFiction: '#388E3C',
-};
 
-const genres = Object.keys(genreColors);
+export const SearchBookPage = () => {
+  const {token, loggedIn} = useToken();
+  const { bookshelves } = useBookshelves(token); 
+  const { booksByGenre, loading: shelfLoading, error: shelfError } = useGetShelfVolumes(token, bookshelves.id);
+  
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
-export const SearchBookPage = ({
-  loggedIn,
-  setLoggedIn,
-  token,
-  setToken
-}) => {
-  const [activeColor, setActiveColor] = useState(genreColors.fantasy);
+
+
+  const [activeColor, setActiveColor] = useState('#4A148C');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    if (!shelfLoading && !shelfError && booksByGenre) {
+     
+      const firstGenre = Object.keys(booksByGenre)[0];
+      setActiveColor(genreColors[firstGenre] || '#4A148C');
+      setSelectedGenre(firstGenre);
+    }
+  }, [booksByGenre, shelfLoading, shelfError]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -37,7 +44,9 @@ export const SearchBookPage = ({
     slidesToShow: 1,
     slidesToScroll: 1,
     beforeChange: (current, next) => {
-      setActiveColor(genreColors[genres[next]]);
+      const genre = Object.keys(booksByGenre)[next];
+      setActiveColor(genreColors[genre] || '#4A148C');
+      setSelectedGenre(genre);
     },
   };
 
@@ -82,60 +91,63 @@ export const SearchBookPage = ({
             pointerEvents: 'none',
             transition: 'background-color 0.5s ease',
             '@media (min-width: 600px)': {
-            width: '50vw',
+              width: '50vw',
             },
           }}
         />
+
         <Box
           sx={{
             width: '100%',
-            height: '90%', // Ensures the Slider container takes up 90% of the height
-            display: 'flex',
+            height: '90%',
+            display: 'flex', 
             flexDirection: 'column',
-            justifyContent: 'flex-end', // Aligns Slider to the bottom
+            justifyContent: 'center',
+            alignItems: 'center',
             overflow: 'hidden',
           }}
         >
-          <Slider {...settings}>
-            {genres.map((genre, index) => (
-              <div key={index} style={{ height: '100%' }}> {/* Ensure each slide takes full height */}
-                <Box
-                  sx={{
-                    height: '90%', // Box for genre text with height of 90%
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
+          <MetadataProvider
+            token={token}
+          >
+            <BookDisplay
+              key={1}
+              activeGenre={selectedGenre}
+              booksByGenre={booksByGenre}
+            />
+
+            <Slider
+              key={2}
+              {...settings} style={{ width: '80%', height: '80%' }}> {/* Adjust width as needed */}
+              {Object.keys(booksByGenre).map((genre, index) => (
+                <h1
+                  key={index}
+                  style={{color: 'white'}}
                 >
-                  <Typography
-                    variant="h4"
-                    sx={{ color: '#ffffff', fontFamily: 'Spotify, sans-serif' }}
-                  >
-                    {genre.charAt(0).toUpperCase() + genre.slice(1)}
-                  </Typography>
-                </Box>
-              </div>
-            ))}
-          </Slider>
+                  {genre}
+                </h1>
+              ))}
+            </Slider>
+          </MetadataProvider>
         </Box>
       </Box>
+
       {loggedIn && (
         <Fab
-        color="primary"
-        sx={{
-          position: 'absolute',
-          bottom: 16,
-          right: 16,
-        }}
-        onClick={handleOpenModal}
-      >
-        <AddIcon />
-      </Fab>
+          color="primary"
+          sx={{
+            position: 'absolute',
+            bottom: 16,
+            right: 16,
+          }}
+          onClick={handleOpenModal}
+        >
+          <AddIcon />
+        </Fab>
       )}
       <BookModal
         open={isModalOpen}
         handleClose={handleCloseModal}
-        token={token}
       />
     </Box>
   );

@@ -32,7 +32,7 @@ export const useAddBookToShelf = (accessToken) => {
       }
 
       const result = await response.json();
-      return result; // Return the response or handle as needed
+      return result;
     } catch (err) {
       setError(err.message);
     } finally {

@@ -8,26 +8,22 @@ export const BookInfo = ({ barcode, addToShelf, bookshelfID }) => {
 
   useEffect(() => {
     if (barcode) {
-      // Step 1: Fetch the Google Books ID using the ISBN
+     
       const fetchBookId = async () => {
         try {
           const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${barcode}`;
           const response = await fetch(url);
           const data = await response.json();
 
-          console.log('isbn', data)
-
           if (data.items && data.items.length > 0) {
             const bookId = data.items[0].id;
 
             addToShelf(bookshelfID, bookId);
 
-            // Step 2: Fetch additional details using the book ID
+           
             const detailsUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}`;
             const detailsResponse = await fetch(detailsUrl);
             const detailsData = await detailsResponse.json();
-
-            console.log('id', detailsData)
             
             setBookData(detailsData.volumeInfo);
           } else {
@@ -56,7 +52,7 @@ export const BookInfo = ({ barcode, addToShelf, bookshelfID }) => {
     return <div>No book data available.</div>;
   }
 
-  // Render the book information
+ 
   return (
     <div>
       <h2>{bookData.title}</h2>

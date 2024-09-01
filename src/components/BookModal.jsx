@@ -5,25 +5,28 @@ import { BarcodeScanner } from './BarcodeScanner';
 import { BookInfo } from './BookInfo';
 import { useAddBookToShelf } from '../common/useAddBookToShelf';
 import { useBookshelves } from '../common/useBookshelves';
+import { useToken } from '../providers';
 
 // Styled components for dark theme
 const DarkDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
-    backgroundColor: '#1a1a1a', // Dark background
-    color: '#ffffff', // White text
+    backgroundColor: '#1a1a1a',
+    color: '#ffffff',
   },
 }));
 
 const DarkButton = styled(Button)(({ theme }) => ({
-  color: '#ffffff', // White text
-  borderColor: '#ffffff', // White border
+  color: '#ffffff',
+  borderColor: '#ffffff',
 }));
 
 export const BookModal = ({
   open,
   handleClose,
-  token
 }) => {
+
+  const {token} = useToken();
+
   const [barcode, setBarcode] = React.useState(null);
 
   const{ bookshelves } = useBookshelves(token); 

@@ -31,7 +31,7 @@ export const BarcodeScanner = ({ setBarcode, barcode }) => {
       const videoDevices = mediaDevices.filter(({ kind }) => kind === 'videoinput');
       setDevices(videoDevices);
 
-      // Set the first device as the initial device
+     
       if (videoDevices.length > 0 && !currentDeviceId) {
         setCurrentDeviceId(videoDevices[0].deviceId);
       }
@@ -63,17 +63,17 @@ export const BarcodeScanner = ({ setBarcode, barcode }) => {
       }
     };
 
-    const intervalId = setInterval(scanBarcode, 100); // Scan every second
+    const intervalId = setInterval(scanBarcode, 100);
 
-    return () => clearInterval(intervalId); // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
   }, [setBarcode]);
 
   const handleClick = () => {
     if (devices.length > 0) {
-      // Find the index of the current device
+     
       const currentIndex = devices.findIndex(device => device.deviceId === currentDeviceId);
 
-      // Move to the next device or loop back to the first one
+     
       const nextIndex = (currentIndex + 1) % devices.length;
       setCurrentDeviceId(devices[nextIndex].deviceId);
     }
