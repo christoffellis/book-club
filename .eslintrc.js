@@ -1,8 +1,21 @@
+// .eslintrc.js
 module.exports = {
-  // other configuration options
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+  ],
+  plugins: [
+    'react',
+    'react-hooks',
+  ],
   rules: {
-    'no-unused-vars': ['warn'], // Change 'error' to 'warn'
-    'react-hooks/exhaustive-deps': ['warn'], // Change 'error' to 'warn'
-    // Add or adjust other rules as needed
-  }
+    'no-unused-vars': 'warn',
+    'react-hooks/exhaustive-deps': 'warn',
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 };
