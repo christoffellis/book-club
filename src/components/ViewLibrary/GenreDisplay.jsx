@@ -23,8 +23,6 @@ export const GenreDisplay = ({
   booksByGenre
 }) => {
 
-
-  console.log(booksByGenre);
   const { booksInGenre, subGenres, loading, error } = useGetBooksInGenre(token, booksByGenre, genre);
 
   return (

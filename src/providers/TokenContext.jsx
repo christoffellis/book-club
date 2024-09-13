@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import MetadataManager from '../common/MetadataManager';
 
 // Create a context for the token
 const TokenContext = createContext();
@@ -11,13 +10,11 @@ export const TokenProvider = ({ children }) => {
   useEffect(() => {
     const initialize = async () => {
       if (token) {
-        MetadataManager.accessToken = token;
         try {
-          await MetadataManager.getFileId(); // Wait for file ID retrieval
-          setLoggedIn(true); // Set loggedIn to true only after file content is successfully loaded
+          setLoggedIn(true);
         } catch (error) {
           console.error('Failed to initialize MetadataManager:', error);
-          setLoggedIn(false); // Ensure loggedIn is set to false on error
+          setLoggedIn(false);
         }
       }
     };

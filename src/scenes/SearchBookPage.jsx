@@ -18,6 +18,7 @@ export const SearchBookPage = () => {
   const { bookshelves } = useBookshelves(token); 
   const { booksByGenre, loading: shelfLoading, error: shelfError } = useGetShelfVolumes(token, bookshelves.id);
   
+  
   const [selectedGenre, setSelectedGenre] = useState(null);
 
 
@@ -32,7 +33,7 @@ export const SearchBookPage = () => {
       setActiveColor(genreColors[firstGenre] || '#4A148C');
       setSelectedGenre(firstGenre);
     }
-  }, [booksByGenre, shelfLoading, shelfError]);
+  }, [/*booksByGenre,*/ shelfLoading, shelfError]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -79,22 +80,23 @@ export const SearchBookPage = () => {
         }}
       >
         {/* Background Color Box */}
+        
         <Box
-          sx={{
-            position: 'absolute',
-            top: '-40%',
-            width: '50vh',
-            height: '50vh',
-            backgroundColor: activeColor,
-            filter: 'blur(10vh)',
-            borderRadius: '50%',
-            pointerEvents: 'none',
-            transition: 'background-color 0.5s ease',
-            '@media (min-width: 600px)': {
-              width: '50vw',
-            },
-          }}
-        />
+            sx={{
+              position: 'absolute',
+              top: '-40%',
+              width: '50vh',
+              height: '50vh',
+              backgroundColor: activeColor,
+              filter: 'blur(10vh)',
+              borderRadius: '50%',
+              pointerEvents: 'none',
+              transition: 'background-color 0.5s ease',
+              '@media (min-width: 600px)': {
+                width: '50vw',
+              },
+            }}
+          />
 
         <Box
           sx={{
@@ -107,6 +109,8 @@ export const SearchBookPage = () => {
             overflow: 'hidden',
           }}
         >
+          
+
           <MetadataProvider
             token={token}
           >
@@ -129,6 +133,7 @@ export const SearchBookPage = () => {
               ))}
             </Slider>
           </MetadataProvider>
+          
         </Box>
       </Box>
 

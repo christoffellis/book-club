@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import MetadataManager from './MetadataManager';
 
 const BOOK_VOLUME_URL = 'https://www.googleapis.com/books/v1/volumes/{volumeId}';
 
+const LIBRARY_THING_URL = 'https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&isbn={isbn}&apikey=7d123028f9d6f42d35151a67cf34c697';
 // Cache objects to store fetched data
 const cachedBooksInGenre = {};
 const cachedSubGenres = {};
@@ -13,7 +13,7 @@ const getSubGenres = (categories) => {
   return firstCategory.split('/').map(subGenre => subGenre.trim());
 };
 
-export const useGetBooksInGenre = (accessToken, booksByGenre, genre, metadata) => {
+export const useGetBooksInGenre = (accessToken, booksByGenre, genre, metadataManager) => {
  
   const [booksInGenre, setBooksInGenre] = useState(cachedBooksInGenre[genre] || []);
   const [subGenres, setSubGenres] = useState(cachedSubGenres[genre] || {});
@@ -34,14 +34,39 @@ export const useGetBooksInGenre = (accessToken, booksByGenre, genre, metadata) =
       return;
     }
 
+    function loadXmlData(isbn) {
+      return new Promise((resolve, reject) => {
+        const iframe = document.getElementById('xmlFrame');
+        iframe.src = `${LIBRARY_THING_URL.replace('{isbn}', isbn)}`;
+        iframe.onload = () => {
+          try {
+            const xmlDoc = iframe.contentDocument || iframe.contentWindow.document;
+            if (xmlDoc) {
+              resolve(xmlDoc);
+            } else {
+              reject(new Error('Failed to access iframe document'));
+            }
+          } catch (error) {
+            reject(error);
+          }
+        };
+        iframe.onerror = () => reject(new Error('Failed to load iframe'));
+      });
+    }
+    
+    function processXml(xmlDoc) {
+      // Example processing logic
+      const title = xmlDoc.getElementsByTagName('title')[0]?.textContent || 'No title';
+      return { title };
+    
+      // Add more processing based on your XML structure
+    }
+
     const fetchBookDetails = async () => {
       try {
         const bookDetailsPromises = booksByGenre[genre].map(async (book) => {
           
-          let bookData = metadata.books[book.volumeInfo.industryIdentifiers[0].identifier];
-
-          console.log('from meta', bookData);
-
+          let bookData = metadataManager.fileContent.books[book.volumeInfo.industryIdentifiers[0].identifier];
 
           if (!bookData) {
             
@@ -54,16 +79,12 @@ export const useGetBooksInGenre = (accessToken, booksByGenre, genre, metadata) =
 
             bookData = await response.json();
 
-            console.log('from response', bookData);
+            console.log('book', bookData);
 
-            const metadataManager = MetadataManager;
+            // bookData.seriesData = seriesData;
 
-            console.log('manager', metadataManager);
-
-            await metadataManager.addBook(book.volumeInfo.industryIdentifiers[0].identifier, bookData);
+            await metadataManager.AddBook(book.volumeInfo.industryIdentifiers[0].identifier, bookData);
           }
-
-          console.log('after fetch from either', bookData);
 
 
           return bookData;
@@ -98,11 +119,13 @@ export const useGetBooksInGenre = (accessToken, booksByGenre, genre, metadata) =
       }
     };
 
-    if (metadata)
+    console.log('meta', metadataManager);
+
+    if (metadataManager.fileContent)
     {
       fetchBookDetails();
     }
-  }, [accessToken, booksByGenre, genre, metadata]);
+  }, [accessToken, booksByGenre, genre, metadataManager, metadataManager.fileContent]);
 
   return { booksInGenre, subGenres, loading, error };
 };
